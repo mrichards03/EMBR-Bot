@@ -1,0 +1,215 @@
+workspace {
+  model {
+    
+    user = person "Controller" "Remotely controls the robot in wildfire areas"{ 
+            tags "IncludeInSystemContext" 
+        }
+    fireStation = softwareSystem "Fire Station Website" "Receives and processes data from the robot." { 
+            tags "IncludeInSystemContext, Website" 
+        }
+    radioReciever = softwareSystem "Radio Reciever and Gateway" "Receives data and converts the radio signal into a format suitable for transmission over the internet"{ 
+            tags "IncludeInSystemContext" 
+        }
+    AWS = softwareSystem "AWS Database" "Stores data" { 
+            tags "IncludeInSystemContext, DB"
+        }
+
+    robot = softwareSystem "Robot" "Navigates " {
+        tags "Robot"
+      sensors = container "Sensors" {
+        tags "Sensor"  
+        temperatureSensorTop = component "Temperature Sensor Top" "" "Sensor"{ 
+            tags "IncludeInSystemContext, Sensor" 
+        }
+        smokeSensorTop = component "Smoke Sensor Top" "" "Sensor" { 
+            tags "IncludeInSystemContext, Sensor" 
+        }
+        temperatureSensorBottom = component "Temperature Sensor Bottom" "" "Sensor" { 
+            tags "IncludeInSystemContext, Sensor" 
+        }
+        smokeSensorBottom = component "Smoke Sensor Bottom" "" "Sensor" { 
+            tags "IncludeInSystemContext, Sensor"  
+        }
+        tofCamera = component "ToF Camera" "" "Camera"{ 
+            tags "IncludeInSystemContext, Sensor" 
+        }
+        thermalCamera = component "Thermal Camera" "" "Camera"{ 
+            tags "IncludeInSystemContext, Sensor"  
+        }
+        IMUSensor = component "IMU Sensor" "" "Sensor"{ 
+            tags "IncludeInSystemContext, Sensor"  
+        }
+        gps = component "GPS Receiver Module" {
+            tags "IncludeInSystemContext, Sensor"
+        }
+      }
+
+      amdSOM = container "AMD SOM" {
+        controllerNode = component "Controller Node" "Reads Incoming Controller Data (Need TBD)" "Ros2 Node"{
+            tags "IncludeInSystemContext" 
+        }
+        tempNode = component "Temperature Sensor Node" "" "Ros2 Node"{ 
+            tags "IncludeInSystemContext" 
+        }
+        smokeNode = component "Smoke Sensor Node" "" "Ros2 Node"{ 
+            tags "IncludeInSystemContext" 
+        }
+        tofNode = component "ToF Camera Node" "" "Ros2 Node"{ 
+            tags "IncludeInSystemContext" 
+        }
+        thermalNode = component "Thermal Camera Node" "" "Ros2 Node"{ 
+            tags "IncludeInSystemContext" 
+        }
+        imuNode = component "IMU Sensor Node" "" "Ros2 Node"{ 
+            tags "IncludeInSystemContext" 
+        }
+        gpsNode = component "GPS Node" "" "Ros2 Node"{ 
+            tags "IncludeInSystemContext" 
+        }
+        thermalProcessing = component "Thermal Image Processing Unit" "Processes thermal images into gps coordinates" "Ros2 Node"{ 
+            tags "IncludeInSystemContext" 
+        }
+        tofProcessing = component "ToF Image Processing Unit" "Processes ToF images into transmittable data" "Ros2 Node"{
+            tags "IncludeInSystemContext" 
+        }
+        gyroProcessing = component "IMU's Gyroscope Processing Unit" "Processes Gyroscope reading to identify which sensors to read from" "Ros2 Node"{
+            tags "IncludeInSystemContext" 
+        }
+        aiNavigator = component "AI Navigation Component" "Any AI is done here" "Ros2 Node"{ 
+            tags "IncludeInSystemContext" 
+        }
+        motorController = component "Motor Control Unit" "Converts Controller data into motor movement (Need TBD)" "Ros2 Node"{
+            tags "IncludeInSystemContext" 
+        }
+        coms = component "Radio Transmitter Node" "Handles Data Transmission" "Ros2 Node"{ 
+            tags "IncludeInSystemContext" 
+        }
+      }
+
+      cubeOrange = container "Cube Orange" "(TBD)" { 
+            tags "IncludeInSystemContext, Cube" 
+        }
+      motors = container "Motors"{ 
+            tags "IncludeInSystemContext" 
+        }
+      camera = container "Camera"{ 
+            tags "IncludeInSystemContext" 
+        }
+    }
+
+    user -> cubeOrange "Sends control data to (tbd)" {
+        tags "Cube"
+    }
+    cubeOrange -> motors "Controls (tbd)" {
+        tags "Cube"
+    }
+    
+    user -> controllerNode "Sends Control Data to (tbd)"
+    controllerNode -> motorController "Sends Control Data to (tbd)"
+    motorController -> motors "Controls (tbd)"
+    
+    temperatureSensorTop -> tempNode "Sends temperature data to"
+    temperatureSensorBottom -> tempNode "Sends temperature data to"
+    smokeSensorTop -> smokeNode "Sends smoke data to"
+    smokeSensorBottom -> smokeNode "Sends smoke data to"
+    tofCamera -> tofNode "Sends tof data to"
+    thermalCamera -> thermalNode "Sends thermal data to"
+    IMUSensor -> imuNode "Sends IMU data to"
+
+    tempNode -> coms "Sends data to"
+    smokeNode -> coms "Sends data to"
+    tofNode -> tofProcessing "Sends data to"
+    tofNode -> aiNavigator "Sends data to"
+    thermalNode -> thermalProcessing "Sends data to"
+    imuNode -> gyroProcessing "Sends data to"
+    imuNode -> aiNavigator "Sends data to"
+    gps -> gpsNode "Sends data to"
+    gpsNode -> thermalProcessing "Sends data to"
+    
+    gyroProcessing -> tempNode "Sends chosen sensor id (top or bottom)"
+    gyroProcessing -> smokeNode "Sends chosen sensor id (top or bottom)"
+    
+    tofProcessing -> coms "Sends processed data to"
+    thermalProcessing -> coms "Sends gps coordinates to"
+
+    aiNavigator -> cubeOrange "Sends control data to (tbd)"{
+        tags "Cube"
+    }
+    aiNavigator -> motors "Controls (tbd)"
+    coms -> radioReciever "Sends processed data via radio to"
+    radioReciever -> AWS "Sends data to"
+    firestation -> AWS "Reads data from"
+    camera -> firestation "Sends live feed via fpv to"
+    
+  }
+
+  views {
+  
+    systemContext robot {
+      include *
+      autoLayout lr
+    }
+
+    container robot {
+      include *
+      autoLayout lr
+    }
+    
+    component sensors {
+      include *
+      autoLayout lr
+    }
+
+    component amdSOM {
+      include *
+      autoLayout lr
+    }
+
+    
+    component amdSOM {
+        description "Full View"
+      include "element.tag==IncludeInSystemContext"
+      autoLayout
+    }
+    
+    styles {
+        element "DB" {
+            shape Cylinder
+        }
+                
+        
+        element "Website" {
+            shape WebBrowser
+        }
+        
+        element "Robot" {
+            shape Robot
+        }
+        
+        element "Sensor" {
+            shape Circle
+            background #999999
+            color #ffffff
+        }
+        
+        element "Cube" {
+            shape Box
+            background #EE7B10
+            color #000000
+        }
+        element "Container" {
+            border Solid
+        }
+        relationship "Cube" {
+            color #EE7B10
+        }
+        relationship "Relationship"{
+            color #000000
+        }
+    }
+
+    
+
+    theme default
+  }
+}
