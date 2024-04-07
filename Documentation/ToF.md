@@ -56,13 +56,13 @@ sudo apt install libgl1-mesa-dev libglfw3-dev
 Please read the following carefully.
 The github instructions say to clone the repository's v5.0.0 branch. Do NOT do this. You actually can't, since the v5.0.0 branch does NOT exist.
 
-Download this: https://github.com/analogdevicesinc/ToF/archive/refs/tags/v5.0.0-rc1.zip
+```bash
+wget https://github.com/analogdevicesinc/ToF/archive/refs/tags/v5.0.0-rc1.zip
+unzip v5.0.0-rc1.zip
+mv ToF-5.0.0-rc1/ ~/baseDirectory/ToF
+```
 
-Extract the folder
-
-Rename folder to `ToF`.
-
-Move `ToF` to `baseDirectory` Folder.
+Now build
 
 ```bash
 cd ToF
