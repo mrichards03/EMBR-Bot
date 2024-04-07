@@ -60,6 +60,7 @@ The github instructions say to clone the repository's v5.0.0 branch. Do NOT do t
 wget https://github.com/analogdevicesinc/ToF/archive/refs/tags/v5.0.0-rc1.zip
 unzip v5.0.0-rc1.zip
 mv ToF-5.0.0-rc1/ ~/baseDirectory/ToF
+rm v5.0.0-rc1.zip
 ```
 
 Now build
