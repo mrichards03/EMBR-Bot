@@ -34,34 +34,32 @@ via a const "const struct bme68x_dev *dev" found in the bme68x_defs.h file on th
 
 ### Using Python to interface BME680 
 
-It is possible to use Adafruit's circuitpython or SMBus library for configuring the sensor. Here it is a step by step on how to setup using Raspberry Pi or similar SBC:
-
-Using adafruit circuitpython:
-
- 1. Install Adafruit CircuitPython BM680
- 2. Install libraries to use hardware
-	> Before continuing make sure your board's lib folder or root filesystem has the adafruit_bme680.mpy, and adafruit_bus_device files.
- 3. Install Adafruit_blinka library, which provides circuitpython support for python.
-
-For testing purpose, to initialize the I2C connection with the sensor use the following code:
-
+It is possible to use bme680 python library, which is based on SMBus protocol for configuring the sensor. Here it is a step by step on how to setup using Raspberry Pi or similar SBC:
+1. Enable i2C on Raspberry Pi. By menu select option 5 and enable i2c
 ```
-import board
-import adafruit_bme680
-i2c = board.I2C()
-sensor = adafruit_bme680.Adafruit_BME680_I2C(i2c)
+sudo raspi-config
 ```
-
-To print the data you can run:
-
+2. Resart the Pi
 ```
-print('Temperature: {} degrees C'.format(sensor.temperature))
-print('Gas: {} ohms'.format(sensor.gas))
-print('Humidity: {}%'.format(sensor.humidity))
-print('Pressure: {}hPa'.format(sensor.pressure))
+sudo reboot now
 ```
+3. Check if i2c is loaded
+```
+ls /dev/i2c-1
+```
+4. Check if sensor is connected and what is the direct address
+```
+i2cdetect -y 1 
+```
+5. Install python packages 
 
-Source: Adafruit Library [link](https://learn.adafruit.com/adafruit-bme680-humidity-temperature-barometic-pressure-voc-gas/python-circuitpython)
+
+
+
+
+Source: 
+[1]Itbrainpower [link](https://itbrainpower.net/a-gsm/RaspberryPI-BME680-sensor_howto)
+[2] Pimoroni [link](https://learn.pimoroni.com/article/getting-started-with-bme680-breakout)
 
 ## Documentation
 
