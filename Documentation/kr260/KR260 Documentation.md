@@ -10,12 +10,12 @@ Note:
     - Create a Xilinx account (it's free)
     - Run the installer and Login
 
-    <img src="images/2024-04-11-01-28-37.png" width="40%">
+    <img src="Images/2024-04-11-01-28-37.png" width="40%">
 
     - Choose Vivado then Vivado ML Standard
     - Choose the following options (bare minimum options, you can add more if you like)
 
-    <img src="images/2024-04-11-01-34-55.png" width="40%">
+    <img src="Images/2024-04-11-01-34-55.png" width="40%">
 
     - Let it install. It will take a while
 
@@ -41,14 +41,14 @@ Note:
     - In the **Project Type** window, ensure the option **Do not specify sources at this time** is checked. 
     - Move to the **Part** page and navigate to the **Boards** tab. Click on Refresh, then search for KR260. Once located, single-click on the Kria KR260 Robotics Starter Kit row and proceed by clicking **Next** then **Finish**.
 
-    <img src="images/2024-04-11-13-45-31.png" width="40%">
+    <img src="Images/2024-04-11-13-45-31.png" width="40%">
 
     - A new Diagram tab will open with an empty block design.
 3. Click the ```+``` and add the **Zynq UltraScale+ MPSoC** Processor
     - Upon addition, a green banner will appear at the top of the **Diagram** window, providing the option to **Run Block Automation**. This automation will apply specific KR260 board presets to the Zynq MPSoC IP block.
     - Click the **Run Block Automation** link and ensure that the **Apply Board Preset** option is selected in the window that appears. Then, click OK.
 
-    <img src="images/2024-04-11-13-52-19.png" width="40%">
+    <img src="Images/2024-04-11-13-52-19.png" width="40%">
 
     - Double-click on the **Zynq UltraScale+ MPSoC** to access the configuration window. Go to **PS-PL Configuration** -> General -> PS-PL Interfaces -> Master interface
     - Disable the two full-power high-performance AXI ports within the block design. 
@@ -57,13 +57,13 @@ Note:
     - Double-click on the clocking wizard IP to access its customization options.
     - Within the **Output Clocks** tab, enable the ```clk_out1``` and ```clk_out2```, setting the **Requested Output Frequency** to ```100 MHz``` and ```200MHz``` respectively. Additionally, scroll down and set **Reset Type** to ```Active Low```.
 
-    <img src="images/2024-04-11-14-13-01.png" width="40%">
-    <img src="images/2024-04-11-14-13-25.png" width="40%">
+    <img src="Images/2024-04-11-14-13-01.png" width="40%">
+    <img src="Images/2024-04-11-14-13-25.png" width="40%">
 
     - Connect the ```clk_in1``` input of the clocking wizard IP to the ```pl_clk0``` output from the processor.
     - Connect the ```resetn``` input of the clocking wizard IP to the ```pl_reset0``` output from the processor.
 
-    <img src="images/2024-04-11-14-14-05.png" width="40%">
+    <img src="Images/2024-04-11-14-14-05.png" width="40%">
 5. Add 2 **Processor System Reset** blocks
     - Connect the ```ext_reset_in``` of each **Processor System Reset** IP to the ```pl_resetn0``` **output of the Zynq UltraScale+** IP.
     - Connect each ```clk_out``` output of the clocking wizard IP to the ```slowest_sync_clk``` of each respective **Processor System Reset** IP.
@@ -78,7 +78,7 @@ Note:
         - Set the clock source for the **driving bridge IP**, **slave interface**, and **master interface** to ```clk_out2```. This alignment ensures synchronization among different components using the same clock source within the design.
     - Establish the connection by linking the ```irq``` output from the **AXI interrupt controller** IP to the ```pl_ps_irq``` input of the **Zynq UltraScale+ IP**.
 
-    <img src="images/2024-04-11-14-40-55.png" width="40%">
+    <img src="Images/2024-04-11-14-40-55.png" width="40%">
 
 7. Configure Processor Peripherals
     - The primary configuration required involves enabling respective ports for each peripheral on the Zynq MPSoC chip. Open the block design within the Vivado project and double-click on the **Zynq UltraScale+ IP** block to access its configuration window.
@@ -90,75 +90,75 @@ Note:
     Begin with the I/O Configuration tab. 
     - Under Low Speed > Memory Interfaces, verify the QSPI settings.
 
-    <img src="images/2024-04-11-15-28-42.png" width="40%">
+    <img src="Images/2024-04-11-15-28-42.png" width="40%">
 
     - Under Low Speed > I/O Peripherals, enable I2C1 on MIO pins 24 - 25.
 
-    <img src="images/2024-04-11-15-30-06.png" width="40%">
+    <img src="Images/2024-04-11-15-30-06.png" width="40%">
 
     - Confirm PMU settings
 
-    <img src="images/2024-04-11-15-31-29.png" width="40%">
-    <img src="images/2024-04-11-15-32-40.png" width="40%">
+    <img src="Images/2024-04-11-15-31-29.png" width="40%">
+    <img src="Images/2024-04-11-15-32-40.png" width="40%">
 
     - Enable SPI1 on MIO pins 6 - 11.
 
-    <img src="images/2024-04-11-15-33-32.png" width="40%">
+    <img src="Images/2024-04-11-15-33-32.png" width="40%">
 
     - Enable UART1 on MIO pins 36 - 37.
 
-    <img src="images/2024-04-11-15-34-22.png" width="40%">
+    <img src="Images/2024-04-11-15-34-22.png" width="40%">
 
     - Enable GPIO0 MIO and GPIO1 MIO.
 
-    <img src="images/2024-04-11-15-35-31.png" width="40%">
+    <img src="Images/2024-04-11-15-35-31.png" width="40%">
 
     - Enable both system-wide watchdog timers SWDT 0 and SWDT 1 under Processing Unit.
 
-    <img src="images/2024-04-11-15-35-55.png" width="40%">
+    <img src="Images/2024-04-11-15-35-55.png" width="40%">
 
     - Enable all four triple timer counters (TTC0 - TTC3), with the first outputting its wave out signal to EMIO.
 
-    <img src="images/2024-04-11-15-36-17.png" width="40%">
+    <img src="Images/2024-04-11-15-36-17.png" width="40%">
 
     - Under High Speed for the RJ45 Ethernet ports on the KR260, enable GEM 0 on GT Lane0 and GEM 1 on MIO pins 38 - 49, with its MDIO on MIO pins 50 - 51.
 
-    <img src="images/2024-04-11-15-37-25.png" width="40%">
+    <img src="Images/2024-04-11-15-37-25.png" width="40%">
 
     - Under USB0, enable USB0 on MIO pins 52 - 63 and USB 3.0 on GT Lane2.
 
-    <img src="images/2024-04-11-15-37-46.png" width="40%">
+    <img src="Images/2024-04-11-15-37-46.png" width="40%">
 
     - Under USB1, enable USB1 on MIO pins 64 - 75 and USB 3.0 on GT Lane3.
 
-    <img src="images/2024-04-11-15-38-33.png" width="40%">
+    <img src="Images/2024-04-11-15-38-33.png" width="40%">
 
     - Configure the reset pins for the USB ports to use separate MIO pins with an active low polarity. Assign USB 0 reset to MIO pin 76 and USB 1 reset to MIO pin 77.
 
-    <img src="images/2024-04-11-15-39-14.png" width="40%">
+    <img src="Images/2024-04-11-15-39-14.png" width="40%">
 
     - Enable the DisplayPort on MIO pins 27 - 30 with a Single Lower lane selection on GT Lane1.
 
-    <img src="images/2024-04-11-15-40-29.png" width="40%">
+    <img src="Images/2024-04-11-15-40-29.png" width="40%">
     
     Proceed directly to the PS-PL Configuration tab (PS = Processing System, PL = Programmable Logic).
     - Under General > Fabric Reset Enable, increase Number of Fabric Resets from 1 to 4.
 
-    <img src="images/2024-04-11-15-40-47.png" width="40%">
+    <img src="Images/2024-04-11-15-40-47.png" width="40%">
 
     In the end, the block design tab should have check marks on each of the enabled peripherals:
 
-    <img src="images/2024-04-11-16-12-20.png" width="40%">
+    <img src="Images/2024-04-11-16-12-20.png" width="40%">
 
 8. CPU Fan Driver IP Block Design
     - Add an Slice IP block and configure it to accept a 3-bit input, outputting specifically the least significant bit (LSB), bit 0:
 
-    <img src="images/2024-04-11-16-21-21.png" width="40%">
+    <img src="Images/2024-04-11-16-21-21.png" width="40%">
 
     - Connect the ```Din``` input of **xslice_0** to ```emio_ttc0_wave_o``` of the **Zynq MPSoC IP**.
     - Right-click on the ```Dout``` pin of **xslice_0** and opt for the **Make External** option. This action generates a port pin and automatically establishes the connection between the Dout pin and this newly created port. Rename the port to ```fan_en_b```, and then regenerate the layout.
 
-    <img src="images/2024-04-11-16-30-42.png" width="40%">
+    <img src="Images/2024-04-11-16-30-42.png" width="40%">
 
 9. Enabling GPIO functionality on PMODs and RPi
     > Note: The KR260 has 4 PMODs however PMOD 1's pins will be used for SPI, I2C, and UART so only 3 AXI GPIO IP's will be used for the 3 PMOD's with GPIO functionality.
@@ -167,32 +167,32 @@ Note:
     > Note: The width of an AXI GPIO IP represents the number of ports it has. The PMODs each have 12 host ports (pin holes) but 2 are 3.3V power and 2 are ground. These 4 pins have their functionality hardwired in so they do not need to be configured in the FPGA design. This is why the GPIO IP's for the PMODs only have a width of 8. 
     - rename each PMOD AXI GPIO to pmod_2, pmod_3, pmod_4
 
-    <img src="images/2024-04-11-18-32-09.png" width="40%">
+    <img src="Images/2024-04-11-18-32-09.png" width="40%">
 
     - Set the 4th GPIO IP to have a width of 19 and rename to rpi_gpio
 
-    <img src="images/2024-04-11-18-50-54.png" width="40%">
+    <img src="Images/2024-04-11-18-50-54.png" width="40%">
 
     - Run **Automatic Connection** tool and then rename the uart 0 port to ```kria_uart``` and uart 1 port to ```rpi_uart```
 
-    <img src="images/2024-04-11-22-22-14.png" width="40%">
+    <img src="Images/2024-04-11-22-22-14.png" width="40%">
     
 11. Add 2 AXI IIC IPs
     - For both: double click and modify **SCL Clock** to ```400 kHz``` and set the **Address Mode** to ```7 bits```
     - Run **Automatic Connection** tool and then rename the iic 0 port to ```kria_i2c``` and uart 1 port to ```rpi_i2c```
     - Connect the ```ii2intc_irpt``` on each to ```ln2``` and ```ln3``` respectively on the **Concat**
 
-    <img src="images/2024-04-11-22-29-12.png" width="40%">
+    <img src="Images/2024-04-11-22-29-12.png" width="40%">
 
 12. Add 2 AXI QUAD SPI IPs
     - For both: double click and modify **Mode** to ``Standard``, **Transaction Width** to ``8``, and select **Enable Master Mode**
 
-    <img src="images/2024-04-11-22-31-55.png" width="40%">
+    <img src="Images/2024-04-11-22-31-55.png" width="40%">
 
     - Run **Automatic Connection** tool and then rename the spi 0 port to ```kria_spi``` and spi 1 port to ```rpi_spi```
     - Connect both to the **Concat** block via their ```ip2_intc_irpt```
 
-    <img src="images/2024-04-11-22-36-18.png" width="40%">
+    <img src="Images/2024-04-11-22-36-18.png" width="40%">
 
 13. Validate, Generate block design, Create HDL Wrapper
     - Validate the design by clicking on the Checked Box button in the top bar of the diagram tab
@@ -365,7 +365,7 @@ Note:
     ```
 - Each gpiochip address should map to the addresses for the GPIO blocks you see in Vivado under **Address Editor**
 
-<img src="images/2024-04-11-23-30-44.png" width="40%">
+<img src="Images/2024-04-11-23-30-44.png" width="40%">
 
 When I did it I ended up with the following (You may end up with something different):
 
