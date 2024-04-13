@@ -171,7 +171,7 @@ Note:
 
     - Set the 4th GPIO IP to have a width of 19 and rename to rpi_gpio
 
-    <img src="images/images/2024-04-11-18-50-54.png" width="40%">
+    <img src="images/2024-04-11-18-50-54.png" width="40%">
 
     - Run **Automatic Connection** tool and then rename the uart 0 port to ```kria_uart``` and uart 1 port to ```rpi_uart```
 
