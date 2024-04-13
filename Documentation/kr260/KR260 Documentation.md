@@ -445,7 +445,7 @@ sudo chmod 777 /dev/i2c-8
     - You will need to install smbus: ``python -m pip install smbus``
     - In your code the ``bus`` will be either ``7`` or ``8`` depending on where your device is connected
 
-## Testing SPI
+### Testing SPI
 - List all SPI devices: ``ls /dev | grep spi`` You should see:
 ```
 spidev3.0
