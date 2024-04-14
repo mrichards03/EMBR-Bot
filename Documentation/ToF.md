@@ -68,7 +68,7 @@ Now build
 ```bash
 cd ToF
 mkdir build && cd build
-cmake -DWITH_EXAMPLES=on -DWITH_ROS2=on -DCMAKE_PREFIX_PATH="/opt/glog;/opt/protobuf;/opt/websockets" ..
+cmake -DWITH_EXAMPLES=on -DWITH_ROS2=on -DROS_HOME_DIR="/home/${USER}/.ros" -DCMAKE_PREFIX_PATH="/opt/glog;/opt/protobuf;/opt/websockets"  ..
 make -j4
 ```
 
