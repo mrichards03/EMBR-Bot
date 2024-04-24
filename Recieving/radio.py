@@ -1,43 +1,28 @@
 from pymavlink import mavutil
+import time
 
-# Setup MAVLink connection (UDP listener in this case)
-# CHANGE DEPENDING ON YOUR DEVICE
-connection = mavutil.mavlink_connection('COM9', 57600)
+connection = mavutil.mavlink_connection('COM18', 57600)
 
-def decode_attitude_message():
-    while True:
-        # Wait for an ATTITUDE message
-        msg = connection.recv_match(type='ATTITUDE', blocking=True)
-        if msg:
-            # Once received, decode it
-            print("Received ATTITUDE message:")
-            print(f"  Timestamp: {msg.time_boot_ms} ms")
-            print(f"  Roll: {msg.roll} radians")
-            print(f"  Pitch: {msg.pitch} radians")
-            print(f"  Yaw: {msg.yaw} radians")
-            print(f"  Rollspeed: {msg.rollspeed} rad/s")
-            print(f"  Pitchspeed: {msg.pitchspeed} rad/s")
-            print(f"  Yawspeed: {msg.yawspeed} rad/s")
+def handle_named_value_float(message):
+    print(f"Received {message.name}: {message.value}")
 
+def handle_gps_raw_int(message):
+    latitude = message.lat
+    longitude = message.lon
+    altitude = message.alt
+    velocity = message.vx
+    print(f"Latitude: {latitude} Longitude: {longitude} Altitude: {altitude} meters Velocity: {velocity/100.0} m/s")
 
-def decode_global_position_message():
-    while True:
-        # Wait for a GLOBAL_POSITION_INT message
-        msg = connection.recv_match(type='GLOBAL_POSITION_INT', blocking=True)
-        if msg:
-            # Once received, decode it
-            print("Received GLOBAL_POSITION_INT message:")
-            print(f"  Timestamp: {msg.time_boot_ms} ms")
-            print(f"  Latitude: {msg.lat / 1.0e7} degrees")
-            print(f"  Longitude: {msg.lon / 1.0e7} degrees")
-            print(f"  Altitude: {msg.alt / 1000.0} meters")
-            print(f"  Relative Altitude: {msg.relative_alt / 1000.0} meters")
-            print(f"  Ground X Speed: {msg.vx / 100.0} m/s")
-            print(f"  Ground Y Speed: {msg.vy / 100.0} m/s")
-            print(f"  Ground Z Speed: {msg.vz / 100.0} m/s")
-            print(f"  Vehicle Heading: {msg.hdg / 100.0} degrees")
-
-
-if __name__ == '__main__':
-    decode_attitude_message()
-    decode_global_position_message()
+while True:
+    try:
+        # Block until a new message is received
+        message = connection.recv_match(blocking=True)
+        if message:
+            # Check the type of the message and handle accordingly
+            if message.get_type() == 'NAMED_VALUE_FLOAT':
+                handle_named_value_float(message)
+            elif message.get_type() == 'GLOBAL_POSITION_INT':
+                handle_gps_raw_int(message)
+    except Exception as e:
+        print(f"An error occurred: {e}")
+    time.sleep(0.1)  # Sleep to limit looping speed
