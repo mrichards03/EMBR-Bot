@@ -18,13 +18,9 @@ class TemperaturePublisher(Node):
         self.get_logger().info('Temperature Publisher node initialized')
 
     def read_temp(self):
-        self.spi.xfer([0x01])  # Start temperature conversion
-        time.sleep(0.3)  # Wait for conversion to complete (TC1 typically takes around 250 ms)
-        adc_data = self.spi.xfer([0x00, 0x00])  # Read temperature data from TC1
-        # Convert ADC data to temperature in degrees Celsius
-        raw_adc = ((adc_data[0] & 0x0F) << 8) + adc_data[1]
-        temperature = ((raw_adc / 4096) * 3300 - 500) / 10  # Formula from TC1 datasheet
-        return temperature
+        adc = self.spi.xfer([1, 0, 0])
+        temp = ((adc[1] & 0x3) << 8) + adc[2]
+        return temp/19
 
 
     def publish_temperature(self):

@@ -1,1 +1,1 @@
-geometry_msgs:rclpy:sensor_msgs
+msg_interface:rclpy:sensor_msgs:std_msgs

@@ -22,6 +22,7 @@ setup(
         'console_scripts': [
             'getCube = embr.getCube:main',
             'getTemp = embr.getTemp:main',
+            'getGas = embr.getGas:main',
             'sendRf = embr.sendRf:main',
         ],
     },

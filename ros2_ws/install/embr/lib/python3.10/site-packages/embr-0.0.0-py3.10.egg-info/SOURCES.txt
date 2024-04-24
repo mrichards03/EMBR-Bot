@@ -11,6 +11,7 @@ setup.py
 ../../build/embr/embr.egg-info/zip-safe
 embr/__init__.py
 embr/getCube.py
+embr/getGas.py
 embr/getTemp.py
 embr/sendRf.py
 resource/embr
