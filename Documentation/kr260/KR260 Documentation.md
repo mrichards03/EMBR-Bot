@@ -1,5 +1,9 @@
 # Setting up RPi pins and PMODs on KR260
-Note: 
+
+## Introduction
+Despite the KR260 being advertised as a development platform that can be used without FPGA knowledge, FPGA design is required for use of the PMODs or the RPi pins. This is because the inputs are on the Programmable Logic (PL) part of the board so the Processing Subsystem(PS), i.e. the processor, is unaware of them. Thus, an FPGA design is required to dictate what communication protocol (SPI, UART, I2C, etc) each pin/PMOD uses and to create a data bus between the PS and PL so that data can be sent and received on the pins/PMODs using code on the processor. 
+
+### Note: 
 - Project name: kr260_gpio
 - Block design: kr260_bd
 
